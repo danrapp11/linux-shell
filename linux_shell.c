@@ -96,12 +96,6 @@ int user_prompt_loop()
         8. free the allocated memory using the free() function
     */
 
-    /*
-    Functions you may need: 
-        get_user_command(), parse_command(), execute_command(), strcmp(), strcat(), 
-        strlen(), strncmp(), fopen(), fclose(), getline(), isdigit(), atoi(), fgetc(), 
-        or any other useful functions
-    */
     int is_exit = 1;
     int exitval = 0;
     printf(">> ");
@@ -114,6 +108,7 @@ int user_prompt_loop()
 	    is_exit = 0;
 	    break;
 	}
+	// open /proc file system and print out info from file requested by user.
 	else if (strstr(parsed_command[0],"/proc") != NULL) {
 	    char* filename = parsed_command[0];
 	    char* source = parsed_command[1];
@@ -218,10 +213,6 @@ int user_prompt_loop()
 
 char* get_user_command()
 {
-    /*
-    Functions you may need: 
-        malloc(), realloc(), getline(), fgetc(), or any other similar functions
-    */
     size_t buffer = 128;
     char* command;
     getline(&command,&buffer,stdin);
@@ -241,17 +232,16 @@ Example:
 
 char** parse_command(char* command)
 {
-    /*
-    Functions you may need: 
-        malloc(), realloc(), free(), strlen(), first_unquoted_space(), unescape()
-    */
+
     command = unescape(command, stderr);
+    // replace newline characters with null (\0)
     if (command[strlen(command) - 1] == '\n')
 	command[strlen(command)-1] = '\0';
     int wordcount = 0;
     char* space = " ";
     char* word = strtok(command, space);
     char** parsed_command = malloc(wordcount * sizeof(char*));
+    // parse through input, adding each word to list of strings, reallocating space for new words accordingly.
     while (word != NULL) {
 	wordcount++;
 	parsed_command = realloc(parsed_command, wordcount * sizeof(char*));
@@ -269,10 +259,6 @@ fork a process and execute the parsed command inside the child process
 
 void execute_command(char** parsed_command)
 {
-    /*
-    Functions you may need: 
-        fork(), execvp(), waitpid(), and any other useful function
-    */
     pid_t pid;
     int status;
     pid = fork();
