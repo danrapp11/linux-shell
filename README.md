@@ -1,5 +1,5 @@
 # linux-shell
-Linux shell interface which allowa a user to input basic commands
+Linux shell interface which allow a user to input basic commands
 1. main function
 	checks if there are any command-line arguments and return an error if any are found. calls the user_prompt_loop
 	function, which returns an int value for the exit call.
